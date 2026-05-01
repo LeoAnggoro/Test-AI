@@ -38,32 +38,20 @@ export function Sidebar() {
   const getGenkiImage = () => {
     if (state === "missing_goals") return "/genki-alert.png";
     if (state === "thinking" || state === "analyzing_kinetics" || state === "success") return "/genki-training.png";
-    return "/genki-rest.png"; // idle or analyzing_nutrition
+    return "/genki-rest.png";
   };
 
   return (
     <div className="w-80 h-full border-r border-white/5 bg-charcoal/50 backdrop-blur-md flex flex-col pt-6 pb-6 px-4">
-<<<<<<< HEAD
       <div className="flex items-center gap-3 mb-8 px-2 shrink-0">
         <div className="relative w-10 h-10 rounded-full overflow-hidden border border-volt/30 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
           <Image src="/gym-buddy-logo.png" alt="Gym Buddy Logo" fill className="object-cover" />
         </div>
-=======
-      <div className="flex items-center gap-3 mb-8 px-2 ml-[10px] shrink-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img 
-          src="/gym-buddy-logo.png" 
-          alt="Gym Buddy Logo" 
-          width={40} 
-          height={40}
-          className="rounded-full border border-volt/40 shadow-[0_0_15px_rgba(0,229,255,0.4)] object-cover"
-        />
->>>>>>> d249925 (Initial commit)
         <h1 className="text-xl font-orbitron font-bold tracking-wider text-white">GYM BUDDY</h1>
       </div>
 
       <div className="flex-1 flex flex-col items-center pt-2 overflow-y-auto overflow-x-hidden no-scrollbar">
-        <motion.div 
+        <motion.div
           className="relative w-48 h-48 shrink-0 rounded-full border-2 overflow-hidden mb-6 flex items-center justify-center bg-black/50"
           animate={{
             borderColor: (state === "thinking" || state === "analyzing_nutrition" || state === "analyzing_kinetics") ? "#00E5FF" : state === "success" ? "#00E5FF" : state === "missing_goals" ? "#FF5722" : "rgba(255,255,255,0.1)",
@@ -73,28 +61,22 @@ export function Sidebar() {
         >
           <div className="absolute inset-0 bg-gradient-to-b from-volt/10 to-transparent z-10 pointer-events-none"></div>
           {(state === "thinking" || state === "analyzing_nutrition" || state === "analyzing_kinetics") && (
-            <motion.div 
+            <motion.div
               animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
               className="absolute inset-[-10px] border-t-2 border-volt rounded-full z-20"
             />
           )}
-          
+
           <div className="relative w-full h-full">
-             <Image 
-               src={getGenkiImage()} 
-               alt="Genki AI Character" 
-               fill 
-<<<<<<< HEAD
-               className="object-cover opacity-90 transition-opacity duration-300"
-               sizes="(max-width: 192px) 100vw, 192px"
-=======
-               priority
-               loading="eager"
-               className="object-cover opacity-90 transition-opacity duration-300"
-               sizes="192px"
->>>>>>> d249925 (Initial commit)
-             />
+            <Image
+              src={getGenkiImage()}
+              alt="Genki AI Character"
+              fill
+              priority
+              className="object-cover opacity-90 transition-opacity duration-300"
+              sizes="192px"
+            />
           </div>
         </motion.div>
 
