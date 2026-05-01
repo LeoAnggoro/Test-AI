@@ -21,7 +21,7 @@ export function Sidebar() {
   const getGenkiMessage = () => {
     switch (state) {
       case "idle":
-        return "I'm ready. What's the target today?";
+        return "Hi I'm Genki your gym buddy. What's the target today?";
       case "thinking":
         return "Calculating optimal path... Recovery Protocol Active.";
       case "analyzing_nutrition":
@@ -44,8 +44,10 @@ export function Sidebar() {
   return (
     <div className="w-80 h-full border-r border-white/5 bg-charcoal/50 backdrop-blur-md flex flex-col pt-6 pb-6 px-4">
       <div className="flex items-center gap-3 mb-8 px-2 shrink-0">
-        <Zap className="w-8 h-8 text-volt text-glow" />
-        <h1 className="text-2xl font-orbitron font-bold tracking-wider text-white">GENKI</h1>
+        <div className="relative w-10 h-10 rounded-full overflow-hidden border border-volt/30 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+          <Image src="/gym-buddy-logo.png" alt="Gym Buddy Logo" fill className="object-cover" />
+        </div>
+        <h1 className="text-xl font-orbitron font-bold tracking-wider text-white">GYM BUDDY</h1>
       </div>
 
       <div className="flex-1 flex flex-col items-center pt-2 overflow-y-auto overflow-x-hidden no-scrollbar">
