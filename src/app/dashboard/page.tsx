@@ -10,7 +10,8 @@ export default function DashboardPage() {
   const { 
     roadmap, wealthyHealthScore, analyzeNutrition, askGenki, state, analyzeKinetics,
     weight, setWeight, height, setHeight, age, setAge, gender, setGender,
-    muscleReadiness, setMuscleReadiness, bmi, bmr, tdee, bioAge
+    muscleReadiness, setMuscleReadiness, bmi, bmr, tdee, bioAge,
+    completedExercises, toggleExercise
   } = useGenki();
   
   const [mounted, setMounted] = useState(false);
@@ -104,9 +105,15 @@ export default function DashboardPage() {
             <span className="text-xs text-white/50 ml-1">
               ({bioAge < age ? "Optimizing" : bioAge > age ? "Needs Recovery" : "Baseline"})
             </span>
+            <div className="group relative ml-1">
+              <Info className="w-3 h-3 text-white/30 hover:text-volt cursor-help transition-colors" />
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-charcoal border border-white/10 rounded-lg text-[10px] text-white/70 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-xl">
+                Bio-Age is calculated by comparing your chronological age against muscle recovery levels and BMI assets.
+              </div>
+            </div>
           </div>
 
-          <div className="glass px-6 py-3 rounded-full flex items-center gap-3">
+          <div className="glass px-6 py-3 rounded-full flex items-center gap-3 relative group">
             <BrainCircuit className="w-5 h-5 text-volt" />
             <span className="font-semibold text-sm">Wealthy Health Score:</span>
             <motion.span 
@@ -117,6 +124,10 @@ export default function DashboardPage() {
             >
               {wealthyHealthScore}
             </motion.span>
+            <div className="absolute top-full right-0 mt-2 w-64 p-3 bg-charcoal/90 backdrop-blur-md border border-volt/20 rounded-xl text-[10px] text-white/60 opacity-0 group-hover:opacity-100 pointer-events-none transition-all z-50 shadow-2xl">
+              <p className="text-volt font-bold mb-1 uppercase tracking-tighter">System Logic:</p>
+              Your score represents systemic readiness. It increases with high-quality nutrition logs and optimal muscle recovery states.
+            </div>
           </div>
         </div>
       </header>
@@ -334,13 +345,25 @@ export default function DashboardPage() {
                 >
                   <div className="text-xs font-bold text-volt mb-1 uppercase tracking-wider">{day.day}</div>
                   <div className="font-orbitron font-semibold text-lg mb-4 text-white group-hover:text-glow transition-all leading-tight">{day.focus}</div>
-                  <ul className="space-y-2">
-                    {day.exercises.map((ex: string, j: number) => (
-                      <li key={j} className="text-sm text-white/70 flex items-start gap-2 leading-snug">
-                        <span className="w-1.5 h-1.5 rounded-full bg-volt/50 mt-1.5 shrink-0"></span>
-                        {ex}
-                      </li>
-                    ))}
+                  <ul className="space-y-3">
+                    {day.exercises.map((ex: string, j: number) => {
+                      const exId = `${i}-${j}`;
+                      const isCompleted = completedExercises.includes(exId);
+                      return (
+                        <li 
+                          key={j} 
+                          onClick={() => toggleExercise(exId)}
+                          className={`text-sm cursor-pointer transition-all flex items-start gap-3 leading-snug group/item ${isCompleted ? 'text-white/30' : 'text-white/70 hover:text-white'}`}
+                        >
+                          <div className={`mt-1 shrink-0 w-4 h-4 rounded border flex items-center justify-center transition-colors ${isCompleted ? 'bg-volt border-volt' : 'border-white/20 group-hover/item:border-volt/50'}`}>
+                            {isCompleted && <div className="w-2 h-2 bg-charcoal rounded-full" />}
+                          </div>
+                          <span className={isCompleted ? 'line-through decoration-volt/50' : ''}>
+                            {ex}
+                          </span>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </motion.div>
               ))}

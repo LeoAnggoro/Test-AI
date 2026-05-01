@@ -47,6 +47,9 @@ interface GenkiContextType {
   tdee: number;
   bioAge: number;
 
+  completedExercises: string[];
+  toggleExercise: (id: string) => void;
+
   askGenki: (goalOrFatigue: string) => Promise<void>;
   analyzeNutrition: (foodInput: string) => Promise<{ macros: MacroData, feedback: string } | null>;
   analyzeKinetics: () => Promise<void>;
@@ -59,6 +62,7 @@ export function GenkiProvider({ children }: { children: ReactNode }) {
   const [roadmap, setRoadmap] = useState<WorkoutDay[] | null>(null);
   const [wealthyHealthScore, setWealthyHealthScore] = useState<number>(85);
   const [analysisMessage, setAnalysisMessage] = useState<string | null>(null);
+  const [completedExercises, setCompletedExercises] = useState<string[]>([]);
 
   // Demographics
   const [weight, setWeight] = useState(82);
@@ -103,6 +107,12 @@ export function GenkiProvider({ children }: { children: ReactNode }) {
     return age; // Baseline
   }, [age, bmi, muscleReadiness]);
 
+  const toggleExercise = (id: string) => {
+    setCompletedExercises(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+
   const askGenki = async (goalOrFatigue: string) => {
     setState("thinking");
     try {
@@ -121,6 +131,7 @@ export function GenkiProvider({ children }: { children: ReactNode }) {
       
       const data = await response.json();
       setRoadmap(data.roadmap);
+      setCompletedExercises([]); // Reset checklist on new roadmap
       setState("success");
       
       setTimeout(() => setState("idle"), 5000);
@@ -197,6 +208,7 @@ export function GenkiProvider({ children }: { children: ReactNode }) {
         gender, setGender,
         muscleReadiness, setMuscleReadiness,
         bmi, bmr, tdee, bioAge,
+        completedExercises, toggleExercise,
         askGenki, analyzeNutrition, analyzeKinetics,
       }}
     >
